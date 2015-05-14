@@ -8,6 +8,8 @@
 
 import Cocoa
 import XCTest
+import Analytics
+import Foundation
 
 class AnalyticsTests: XCTestCase {
     
@@ -21,7 +23,9 @@ class AnalyticsTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
+    func testSettings() {
+      let client = Analytics.Client()
+      client.settings()
         // This is an example of a functional test case.
         XCTAssert(true, "Pass")
     }

@@ -47,17 +47,41 @@ public class Client {
     NSURLConnection.sendSynchronousRequest(urlRequest, returningResponse: &response, error: &networkError)
   }
   
+  public func identify(userId: String, traits: Dictionary<String, AnyObject>) {
+    var identify = NSMutableDictionary()
+    identify["type"] = "identify"
+    identify["messageId"] = NSUUID().UUIDString
+    identify["userId"] = userId
+    identify["traits"] = traits
+    upload(identify)
+  }
+  
   public func track(event: String, properties: Dictionary<String, AnyObject>) {
     var track = NSMutableDictionary()
-    track["type"] = "track";
-    track["userId"] = "prateek";
-    track["messageId"] = NSUUID().UUIDString;
-    track["event"] = event;
-    track["properties"] = properties;
+    track["type"] = "track"
+    track["messageId"] = NSUUID().UUIDString
+    track["userId"] = "prateek"
+    track["event"] = event
+    track["properties"] = properties
     upload(track)
   }
   
-  public func identify(userId: String, traits: Dictionary<String, Any>) {
-    
+  public func screen(name: String, properties: Dictionary<String, AnyObject>) {
+    var screen = NSMutableDictionary()
+    screen["type"] = "screen"
+    screen["messageId"] = NSUUID().UUIDString
+    screen["userId"] = "prateek"
+    screen["name"] = name
+    screen["properties"] = properties
+    upload(screen)
+  }
+  
+  public func alias(userId: String, previousId: String) {
+    var screen = NSMutableDictionary()
+    screen["type"] = "screen"
+    screen["messageId"] = NSUUID().UUIDString
+    screen["userId"] = userId
+    screen["previousId"] = previousId
+    upload(screen)
   }
 }

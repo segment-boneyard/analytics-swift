@@ -12,6 +12,8 @@
 		6E6CC5AA1B054BC900A8F47F /* AnalyticsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6CC5A91B054BC900A8F47F /* AnalyticsTests.swift */; };
 		6E6CC5B41B054BE500A8F47F /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6CC5B31B054BE500A8F47F /* Analytics.swift */; };
 		6E6CC5B61B054BF200A8F47F /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6CC5B51B054BF200A8F47F /* Client.swift */; };
+		6EE7755D1B06716100698D69 /* ClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE7755C1B06716100698D69 /* ClientTests.swift */; };
+		6EE7755F1B069ABA00698D69 /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE7755E1B069ABA00698D69 /* Credentials.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +35,8 @@
 		6E6CC5A91B054BC900A8F47F /* AnalyticsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsTests.swift; sourceTree = "<group>"; };
 		6E6CC5B31B054BE500A8F47F /* Analytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		6E6CC5B51B054BF200A8F47F /* Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
+		6EE7755C1B06716100698D69 /* ClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientTests.swift; sourceTree = "<group>"; };
+		6EE7755E1B069ABA00698D69 /* Credentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +82,7 @@
 				6E6CC59C1B054BC900A8F47F /* Analytics.h */,
 				6E6CC5B31B054BE500A8F47F /* Analytics.swift */,
 				6E6CC5B51B054BF200A8F47F /* Client.swift */,
+				6EE7755E1B069ABA00698D69 /* Credentials.swift */,
 				6E6CC59A1B054BC900A8F47F /* Supporting Files */,
 			);
 			path = Analytics;
@@ -95,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				6E6CC5A91B054BC900A8F47F /* AnalyticsTests.swift */,
+				6EE7755C1B06716100698D69 /* ClientTests.swift */,
 				6E6CC5A71B054BC900A8F47F /* Supporting Files */,
 			);
 			path = AnalyticsTests;
@@ -215,6 +221,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EE7755F1B069ABA00698D69 /* Credentials.swift in Sources */,
 				6E6CC5B61B054BF200A8F47F /* Client.swift in Sources */,
 				6E6CC5B41B054BE500A8F47F /* Analytics.swift in Sources */,
 			);
@@ -224,6 +231,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EE7755D1B06716100698D69 /* ClientTests.swift in Sources */,
 				6E6CC5AA1B054BC900A8F47F /* AnalyticsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -411,6 +419,7 @@
 				6E6CC5AF1B054BC900A8F47F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6E6CC5B01B054BC900A8F47F /* Build configuration list for PBXNativeTarget "AnalyticsTests" */ = {
 			isa = XCConfigurationList;
@@ -419,6 +428,7 @@
 				6E6CC5B21B054BC900A8F47F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

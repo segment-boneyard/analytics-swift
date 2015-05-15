@@ -19,33 +19,25 @@ public class Client {
     return "hello, world"
   }
   
-  static func base64(string: String) -> String {
-    let utf8str = string.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
-    return utf8str.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
-  }
-  
-  static func authHeaderValue(writeKey: String) -> String {
-    return String(format: "Basic %@", base64(String(format: "%@:", writeKey)))
-  }
-  
   static func request(url: String) -> NSMutableURLRequest {
     return NSMutableURLRequest(URL: NSURL(string: url)!)
   }
   
   func upload(message: NSDictionary) {
-    var batch = NSMutableDictionary()
+    var batch = Dictionary<String, AnyObject>()
     batch["batch"] = [message];
 
     let urlRequest = Client.request("https://api.segment.io/v1/import")
     urlRequest.HTTPMethod = "post";
     urlRequest.setValue("gzip", forHTTPHeaderField: "Accept-Encoding")
     urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    urlRequest.setValue(Client.authHeaderValue(writeKey), forHTTPHeaderField: "Authorization")
+    urlRequest.setValue(Credentials.basic(writeKey, password: ""), forHTTPHeaderField: "Authorization")
 
     var jsonError: NSError?
     let decodedJson = NSJSONSerialization.dataWithJSONObject(batch, options: nil, error: &jsonError)
     if jsonError != nil {
       println("failed")
+      return
     }
     urlRequest.HTTPBody = decodedJson
     
@@ -55,12 +47,17 @@ public class Client {
     NSURLConnection.sendSynchronousRequest(urlRequest, returningResponse: &response, error: &networkError)
   }
   
-  public func track(event: String) {
+  public func track(event: String, properties: Dictionary<String, AnyObject>) {
     var track = NSMutableDictionary()
     track["type"] = "track";
     track["userId"] = "prateek";
-    track["messageId"] = "foo";
+    track["messageId"] = NSUUID().UUIDString;
     track["event"] = event;
+    track["properties"] = properties;
     upload(track)
+  }
+  
+  public func identify(userId: String, traits: Dictionary<String, Any>) {
+    
   }
 }

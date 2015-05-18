@@ -24,7 +24,7 @@ class AnalyticsTests: XCTestCase {
     
   func testExample() {
     var client = Client(writeKey: "Z2qQi0HsunlFVULJmUi6R0JAwIF2S7R1")
-    for index in 1...10 {
+    for index in 1...20 {
       client.enqueue(TrackMessageBuilder(event: "hello, world" + String(index)).userId("prateek"))
       client.enqueue(TrackMessageBuilder(event: "bye, world" + String(index)).userId("prateek"))
     }

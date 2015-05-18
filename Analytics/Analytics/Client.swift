@@ -11,10 +11,12 @@ import Foundation
 public class Client {
   var writeKey: String
   var messageQueue: Array<Dictionary<String, AnyObject>>
+  var executor: dispatch_queue_t
   
   public init(writeKey: String) {
     self.writeKey = writeKey
     self.messageQueue = Array()
+    self.executor = dispatch_queue_create("com.segment.executor." + writeKey, DISPATCH_QUEUE_SERIAL)
   }
   
   static func request(url: String) -> NSMutableURLRequest {
@@ -34,10 +36,18 @@ public class Client {
     var message = messageBuilder.build()
     message["messageId"] = NSUUID().UUIDString
     message["timestamp"] = Client.now()
-    messageQueue.append(message)
     
-    if(messageQueue.count >= 10) {
-      flush()
+    dispatch() {
+      self.messageQueue.append(message)
+      if(self.messageQueue.count >= 10) {
+        self.flush()
+      }
+    }
+  }
+  
+  func dispatch(closure: () -> ()) {
+    dispatch_async(executor) {
+      closure()
     }
   }
   

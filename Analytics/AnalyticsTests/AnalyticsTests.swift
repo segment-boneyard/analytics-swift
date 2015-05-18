@@ -28,16 +28,5 @@ class AnalyticsTests: XCTestCase {
       client.enqueue(TrackMessageBuilder(event: "hello, world" + String(index)).userId("prateek"))
       client.enqueue(TrackMessageBuilder(event: "bye, world" + String(index)).userId("prateek"))
     }
-    XCTAssertEqual(client.sayHelloWorld(), "hello, world")
-    // This is an example of a functional test case.
-    XCTAssert(true, "Pass")
   }
-    
-  func testPerformanceExample() {
-    // This is an example of a performance test case.
-    self.measureBlock() {
-      // Put the code you want to measure the time of here.
-    }
-  }
-
 }

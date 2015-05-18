@@ -17,46 +17,17 @@ public class Client {
     self.messageQueue = Array()
   }
   
-  public func sayHelloWorld() -> String {
-    return "hello, world"
-  }
-  
   static func request(url: String) -> NSMutableURLRequest {
     return NSMutableURLRequest(URL: NSURL(string: url)!)
   }
   
-  func flush() {
-    let messageCount = messageQueue.count
-    var batch = Dictionary<String, AnyObject>()
-    batch["batch"] = messageQueue
-    batch["context"] = ["library" : ["name": "analytics-swift", "version": "1.0.0"]]
-
-    let urlRequest = Client.request("https://api.segment.io/v1/import")
-    urlRequest.HTTPMethod = "post";
-    urlRequest.setValue("gzip", forHTTPHeaderField: "Accept-Encoding")
-    urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    urlRequest.setValue(Credentials.basic(writeKey, password: ""), forHTTPHeaderField: "Authorization")
-
-    var jsonError: NSError?
-    let decodedJson = NSJSONSerialization.dataWithJSONObject(batch, options: nil, error: &jsonError)
-    if jsonError != nil {
-      println("Failed to serialize messages. Dropping \(messageCount) messages.")
-      messageQueue.removeAll(keepCapacity: true)
-      return
-    }
-    urlRequest.HTTPBody = decodedJson
-    
-    println("Uploading \(messageCount) messages.")
-
-    var networkError: NSError?
-    var response: NSURLResponse?
-    NSURLConnection.sendSynchronousRequest(urlRequest, returningResponse: &response, error: &networkError)
-    if networkError != nil {
-      println("Failed to upload messages. Retrying later.")
-      return
-    }
-    
-    messageQueue.removeAll(keepCapacity: true)
+  static func now() -> String {
+    let formatter = NSDateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z"
+    formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+    formatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)!
+    formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+    return formatter.stringFromDate(NSDate())
   }
   
   public func enqueue(messageBuilder: MessageBuilder) {
@@ -70,13 +41,37 @@ public class Client {
     }
   }
   
-  static func now() -> String {
-    let formatter = NSDateFormatter()
-    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z"
-    formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
-    formatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)!
-    formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-    return formatter.stringFromDate(NSDate())
+  func flush() {
+    let messageCount = messageQueue.count
+    var batch = Dictionary<String, AnyObject>()
+    batch["batch"] = messageQueue
+    batch["context"] = ["library" : ["name": "analytics-swift", "version": "1.0.0"]]
+    
+    let urlRequest = Client.request("https://api.segment.io/v1/import")
+    urlRequest.HTTPMethod = "post";
+    urlRequest.setValue("gzip", forHTTPHeaderField: "Accept-Encoding")
+    urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    urlRequest.setValue(Credentials.basic(writeKey, password: ""), forHTTPHeaderField: "Authorization")
+    
+    var jsonError: NSError?
+    let decodedJson = NSJSONSerialization.dataWithJSONObject(batch, options: nil, error: &jsonError)
+    if jsonError != nil {
+      println("Failed to serialize messages. Dropping \(messageCount) messages.")
+      messageQueue.removeAll(keepCapacity: true)
+      return
+    }
+    urlRequest.HTTPBody = decodedJson
+    
+    println("Uploading \(messageCount) messages.")
+    
+    var networkError: NSError?
+    var response: NSURLResponse?
+    NSURLConnection.sendSynchronousRequest(urlRequest, returningResponse: &response, error: &networkError)
+    if networkError != nil {
+      println("Failed to upload messages. Retrying later.")
+      return
+    }
+    
+    messageQueue.removeAll(keepCapacity: true)
   }
-  
 }

@@ -10,9 +10,11 @@ import Foundation
 
 public class Client {
   var writeKey: String
+  var messageQueue: Array<Dictionary<String, AnyObject>>
   
   public init(writeKey: String) {
     self.writeKey = writeKey
+    self.messageQueue = Array()
   }
   
   public func sayHelloWorld() -> String {
@@ -23,9 +25,10 @@ public class Client {
     return NSMutableURLRequest(URL: NSURL(string: url)!)
   }
   
-  func upload(message: Dictionary<String, AnyObject>) {
+  func flush() {
+    let messageCount = messageQueue.count
     var batch = Dictionary<String, AnyObject>()
-    batch["batch"] = [message]
+    batch["batch"] = messageQueue
     batch["context"] = ["library" : ["name": "analytics-swift", "version": "1.0.0"]]
 
     let urlRequest = Client.request("https://api.segment.io/v1/import")
@@ -37,25 +40,37 @@ public class Client {
     var jsonError: NSError?
     let decodedJson = NSJSONSerialization.dataWithJSONObject(batch, options: nil, error: &jsonError)
     if jsonError != nil {
-      println("failed")
+      println("Failed to serialize messages. Dropping \(messageCount) messages.")
+      messageQueue.removeAll(keepCapacity: true)
       return
     }
     urlRequest.HTTPBody = decodedJson
     
+    println("Uploading \(messageCount) messages.")
+
     var networkError: NSError?
     var response: NSURLResponse?
-
     NSURLConnection.sendSynchronousRequest(urlRequest, returningResponse: &response, error: &networkError)
+    if networkError != nil {
+      println("Failed to upload messages. Retrying later.")
+      return
+    }
+    
+    messageQueue.removeAll(keepCapacity: true)
   }
   
   public func enqueue(messageBuilder: MessageBuilder) {
     var message = messageBuilder.build()
     message["messageId"] = NSUUID().UUIDString
-    message["timestamp"] = iso8601Date()
-    upload(message)
+    message["timestamp"] = Client.now()
+    messageQueue.append(message)
+    
+    if(messageQueue.count >= 10) {
+      flush()
+    }
   }
   
-  func iso8601Date() -> String {
+  static func now() -> String {
     let formatter = NSDateFormatter()
     formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z"
     formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)

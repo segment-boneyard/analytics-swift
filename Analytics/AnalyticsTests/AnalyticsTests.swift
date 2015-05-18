@@ -24,8 +24,10 @@ class AnalyticsTests: XCTestCase {
     
   func testExample() {
     var client = Client(writeKey: "Z2qQi0HsunlFVULJmUi6R0JAwIF2S7R1")
-    client.enqueue(TrackMessageBuilder(event: "hello, world").userId("prateek"))
-    client.enqueue(TrackMessageBuilder(event: "bye, world").userId("prateek"))
+    for index in 1...10 {
+      client.enqueue(TrackMessageBuilder(event: "hello, world" + String(index)).userId("prateek"))
+      client.enqueue(TrackMessageBuilder(event: "bye, world" + String(index)).userId("prateek"))
+    }
     XCTAssertEqual(client.sayHelloWorld(), "hello, world")
     // This is an example of a functional test case.
     XCTAssert(true, "Pass")

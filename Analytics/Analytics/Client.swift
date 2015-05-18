@@ -32,8 +32,15 @@ public class Client {
     return formatter.stringFromDate(NSDate())
   }
   
+  static func ensureId(message: Dictionary<String, AnyObject>) {
+    if message.indexForKey("userId") == nil && message.indexForKey("anonymousId") == nil {
+      NSException(name: "Assertion Failed", reason: "Either userId or anonymousId must be provided.", userInfo: message).raise()
+    }
+  }
+  
   public func enqueue(messageBuilder: MessageBuilder) {
     var message = messageBuilder.build()
+    Client.ensureId(message)
     message["messageId"] = NSUUID().UUIDString
     message["timestamp"] = Client.now()
     

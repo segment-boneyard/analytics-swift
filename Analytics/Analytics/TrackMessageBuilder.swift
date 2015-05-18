@@ -42,4 +42,5 @@ public class TrackMessageBuilder: MessageBuilder {
   public func build() -> Dictionary<String, AnyObject> {
     return dictionary
   }
+  
 }

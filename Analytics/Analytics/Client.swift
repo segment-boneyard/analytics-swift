@@ -23,9 +23,10 @@ public class Client {
     return NSMutableURLRequest(URL: NSURL(string: url)!)
   }
   
-  func upload(message: NSDictionary) {
+  func upload(message: Dictionary<String, AnyObject>) {
     var batch = Dictionary<String, AnyObject>()
-    batch["batch"] = [message];
+    batch["batch"] = [message]
+    batch["context"] = ["library" : ["name": "analytics-swift", "version": "1.0.0"]]
 
     let urlRequest = Client.request("https://api.segment.io/v1/import")
     urlRequest.HTTPMethod = "post";
@@ -47,41 +48,20 @@ public class Client {
     NSURLConnection.sendSynchronousRequest(urlRequest, returningResponse: &response, error: &networkError)
   }
   
-  public func identify(userId: String, traits: Dictionary<String, AnyObject>) {
-    var identify = NSMutableDictionary()
-    identify["type"] = "identify"
-    identify["messageId"] = NSUUID().UUIDString
-    identify["userId"] = userId
-    identify["traits"] = traits
-    upload(identify)
+  public func enqueue(messageBuilder: MessageBuilder) {
+    var message = messageBuilder.build()
+    message["messageId"] = NSUUID().UUIDString
+    message["timestamp"] = iso8601Date()
+    upload(message)
   }
   
-  public func track(event: String, properties: Dictionary<String, AnyObject>) {
-    var track = NSMutableDictionary()
-    track["type"] = "track"
-    track["messageId"] = NSUUID().UUIDString
-    track["userId"] = "prateek"
-    track["event"] = event
-    track["properties"] = properties
-    upload(track)
+  func iso8601Date() -> String {
+    let formatter = NSDateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z"
+    formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+    formatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)!
+    formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+    return formatter.stringFromDate(NSDate())
   }
   
-  public func screen(name: String, properties: Dictionary<String, AnyObject>) {
-    var screen = NSMutableDictionary()
-    screen["type"] = "screen"
-    screen["messageId"] = NSUUID().UUIDString
-    screen["userId"] = "prateek"
-    screen["name"] = name
-    screen["properties"] = properties
-    upload(screen)
-  }
-  
-  public func alias(userId: String, previousId: String) {
-    var screen = NSMutableDictionary()
-    screen["type"] = "screen"
-    screen["messageId"] = NSUUID().UUIDString
-    screen["userId"] = userId
-    screen["previousId"] = previousId
-    upload(screen)
-  }
 }

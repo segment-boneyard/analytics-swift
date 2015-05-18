@@ -23,4 +23,10 @@ class SerialExecutor {
       closure()
     }
   }
+  
+  func sync(closure: () -> ()) {
+    dispatch_sync(dispatcher) {
+      closure()
+    }
+  }
 }

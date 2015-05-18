@@ -31,7 +31,7 @@ class AnalyticsTests: XCTestCase {
     
     println("Sent messages to client.")
     
-    client.flush()
+    client.blockingFlush()
     
     println("Triggered explicit flush.")
   }

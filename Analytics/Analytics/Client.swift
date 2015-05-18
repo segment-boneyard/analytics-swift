@@ -51,6 +51,12 @@ public class Client {
     }
   }
   
+  public func blockingFlush() {
+    executor.sync() {
+      self.performFlush()
+    }
+  }
+  
   func performFlush() {
     let messageCount = messageQueue.count
     var batch = Dictionary<String, AnyObject>()

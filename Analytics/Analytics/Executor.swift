@@ -28,5 +28,5 @@ import Foundation
   Exposed for testing.
 */
 public protocol Executor {
-  func submit(closure: () -> ())
+  func submit(task: () -> ())
 }

@@ -32,9 +32,9 @@ public class SynchronousExecutor: Executor {
     self.dispatcher = dispatch_queue_create(name, DISPATCH_QUEUE_SERIAL)
   }
   
-  public func submit(closure: () -> ()) {
+  public func submit(task: () -> ()) {
     dispatch_sync(dispatcher) {
-      closure()
+      task()
     }
   }
 }

@@ -31,9 +31,9 @@ public class SerialExecutor: Executor {
     self.dispatcher = dispatch_queue_create(name, DISPATCH_QUEUE_SERIAL)
   }
   
-  public func submit(closure: () -> ()) {
+  public func submit(task: () -> ()) {
     dispatch_async(dispatcher) {
-      closure()
+      task()
     }
   }
 }

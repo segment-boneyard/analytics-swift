@@ -23,15 +23,15 @@ class AnalyticsTests: XCTestCase {
   }
     
   func testExample() {
-    var client = Client(writeKey: "Z2qQi0HsunlFVULJmUi6R0JAwIF2S7R1")
+    var analytics = Analytics(writeKey: "Z2qQi0HsunlFVULJmUi6R0JAwIF2S7R1")
     for index in 1...21 {
-      client.enqueue(TrackMessageBuilder(event: "hello, world" + String(index)).userId("prateek"))
-      client.enqueue(TrackMessageBuilder(event: "bye, world" + String(index)).userId("prateek"))
+      analytics.enqueue(TrackMessageBuilder(event: "hello, world" + String(index)).userId("prateek"))
+      analytics.enqueue(TrackMessageBuilder(event: "bye, world" + String(index)).userId("prateek"))
     }
     
     println("Sent messages to client.")
     
-    client.blockingFlush()
+    analytics.blockingFlush()
     
     println("Triggered explicit flush.")
   }

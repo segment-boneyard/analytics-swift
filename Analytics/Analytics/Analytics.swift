@@ -1,22 +1,57 @@
+// The MIT License (MIT)
 //
-//  Analytics.swift
-//  Analytics
+// Copyright © 2015 Segment, Inc.
 //
-//  Created by Prateek Srivastava on 2015-05-14.
-//  Copyright (c) 2015 Segment. All rights reserved.
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 //
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 import Foundation
 
+/**
+ The entry point into the Segment for Java library.
+ <p>
+ The idea is simple: one pipeline for all your data. Segment is the single hub to collect,
+ translate and route your data with the flip of a switch.
+ <p>
+ Analytics for Swift will automatically batch events and upload it periodically to Segment's
+ servers for you. You only need to instrument Segment once, then flip a switch to install
+ new tools.
+ <p>
+ This class is the main entry point into the client API. Use {@link #create} to construct your
+ own instances.
+
+ @see <a href="https://Segment/">Segment</a>
+*/
 public class Analytics {
   var writeKey: String
   var messageQueue: Array<Dictionary<String, AnyObject>>
-  var executor: SerialExecutor
+  var executor: Executor
   
-  public init(writeKey: String) {
+  public static func create(writeKey: String) -> Analytics {
+    let executor = SerialExecutor(name:"com.segment.executor." + writeKey)
+    let queue = Array<Dictionary<String, AnyObject>>()
+    return Analytics(writeKey: writeKey, queue: queue, executor: executor)
+  }
+  
+  public init(writeKey: String, queue: Array<Dictionary<String,AnyObject>>, executor: Executor) {
     self.writeKey = writeKey
-    self.messageQueue = Array()
-    self.executor = SerialExecutor(name:"com.segment.executor." + writeKey)
+    self.messageQueue = queue
+    self.executor = executor
   }
   
   static func ensureId(message: Dictionary<String, AnyObject>) {
@@ -44,7 +79,7 @@ public class Analytics {
     message["messageId"] = NSUUID().UUIDString
     message["timestamp"] = now()
     
-    executor.async() {
+    executor.submit() {
       self.messageQueue.append(message)
       if(self.messageQueue.count >= 10) {
         self.performFlush()
@@ -53,13 +88,7 @@ public class Analytics {
   }
   
   public func flush() {
-    executor.async() {
-      self.performFlush()
-    }
-  }
-  
-  public func blockingFlush() {
-    executor.sync() {
+    executor.submit() {
       self.performFlush()
     }
   }

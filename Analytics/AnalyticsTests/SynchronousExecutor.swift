@@ -21,7 +21,20 @@
 // SOFTWARE.
 
 import Foundation
+import Analytics
 
-public protocol MessageBuilder {
-  func build() -> Dictionary<String, AnyObject>
+/** An Executor implementation that runs tasks and blocks until they complete. */
+public class SynchronousExecutor: Executor {
+  
+  var dispatcher: dispatch_queue_t
+  
+  init(name: String) {
+    self.dispatcher = dispatch_queue_create(name, DISPATCH_QUEUE_SERIAL)
+  }
+  
+  public func submit(closure: () -> ()) {
+    dispatch_sync(dispatcher) {
+      closure()
+    }
+  }
 }

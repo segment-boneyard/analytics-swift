@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E297B8D1B0BC312005F776C /* Executor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E297B8C1B0BC312005F776C /* Executor.swift */; };
+		6E297B911B0BD769005F776C /* SynchronousExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E297B901B0BD769005F776C /* SynchronousExecutor.swift */; };
 		6E38ACE91B0A58F900F36438 /* TrackMessageBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E38ACE81B0A58F900F36438 /* TrackMessageBuilder.swift */; };
 		6E38ACEF1B0A5EE100F36438 /* IdentifyMessageBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E38ACEE1B0A5EE100F36438 /* IdentifyMessageBuilder.swift */; };
 		6E38ACF11B0A5EEA00F36438 /* ScreenMessageBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E38ACF01B0A5EEA00F36438 /* ScreenMessageBuilder.swift */; };
@@ -32,6 +34,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6E297B8C1B0BC312005F776C /* Executor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Executor.swift; sourceTree = "<group>"; };
+		6E297B901B0BD769005F776C /* SynchronousExecutor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynchronousExecutor.swift; sourceTree = "<group>"; };
 		6E38ACE81B0A58F900F36438 /* TrackMessageBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackMessageBuilder.swift; sourceTree = "<group>"; };
 		6E38ACEE1B0A5EE100F36438 /* IdentifyMessageBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentifyMessageBuilder.swift; sourceTree = "<group>"; };
 		6E38ACF01B0A5EEA00F36438 /* ScreenMessageBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenMessageBuilder.swift; sourceTree = "<group>"; };
@@ -91,6 +95,7 @@
 			children = (
 				6E6CC59C1B054BC900A8F47F /* Analytics.h */,
 				6E6CC5B31B054BE500A8F47F /* Analytics.swift */,
+				6E297B8C1B0BC312005F776C /* Executor.swift */,
 				6E38ACF61B0A660C00F36438 /* MessageBuilder.swift */,
 				6E38ACE81B0A58F900F36438 /* TrackMessageBuilder.swift */,
 				6E38ACEE1B0A5EE100F36438 /* IdentifyMessageBuilder.swift */,
@@ -116,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				6E6CC5A91B054BC900A8F47F /* AnalyticsTests.swift */,
+				6E297B901B0BD769005F776C /* SynchronousExecutor.swift */,
 				6E6CC5A71B054BC900A8F47F /* Supporting Files */,
 			);
 			path = AnalyticsTests;
@@ -242,6 +248,7 @@
 				6E38ACF11B0A5EEA00F36438 /* ScreenMessageBuilder.swift in Sources */,
 				6EE7755F1B069ABA00698D69 /* Credentials.swift in Sources */,
 				6E38ACE91B0A58F900F36438 /* TrackMessageBuilder.swift in Sources */,
+				6E297B8D1B0BC312005F776C /* Executor.swift in Sources */,
 				6E38ACF71B0A660C00F36438 /* MessageBuilder.swift in Sources */,
 				6E38AD021B0A915F00F36438 /* SerialExecutor.swift in Sources */,
 				6E6CC5B41B054BE500A8F47F /* Analytics.swift in Sources */,
@@ -253,6 +260,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E6CC5AA1B054BC900A8F47F /* AnalyticsTests.swift in Sources */,
+				6E297B911B0BD769005F776C /* SynchronousExecutor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

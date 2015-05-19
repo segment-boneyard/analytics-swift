@@ -68,7 +68,7 @@ public class Analytics {
     let messageCount = messageQueue.count
     var batch = Dictionary<String, AnyObject>()
     batch["batch"] = messageQueue
-    batch["context"] = ["library" : ["name": "analytics-swift", "version": "1.0.0"]]
+    batch["context"] = ["library" : ["name": "analytics-swift", "version": AnalyticsVersionNumber]]
     
     let urlRequest = request("https://api.segment.io/v1/import")
     urlRequest.HTTPMethod = "post";

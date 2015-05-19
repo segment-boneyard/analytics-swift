@@ -22,48 +22,58 @@
 
 import Foundation
 
-/**
- The entry point into the Segment for Java library.
- <p>
- The idea is simple: one pipeline for all your data. Segment is the single hub to collect,
- translate and route your data with the flip of a switch.
- <p>
- Analytics for Swift will automatically batch events and upload it periodically to Segment's
- servers for you. You only need to instrument Segment once, then flip a switch to install
- new tools.
- <p>
- This class is the main entry point into the client API. Use {@link #create} to construct your
- own instances.
-
- @see <a href="https://Segment/">Segment</a>
-*/
+/// The entry point into the Analytics for Swift library.
 public class Analytics {
+  /// The writeKey for the Segment project this client will upload events to.
   var writeKey: String
+  /// In memory queue of enqueued events.
   var messageQueue: Array<Dictionary<String, AnyObject>>
+  /// Executor that handles interactions with the messageQueue. This will also be used to upload events.
   var executor: Executor
+  /// Queue size at which we automatically upload events
+  let flushQueueSize = 10
   
+  /**
+    Initializes a new Analytics client with the provided parameters.
+  
+    :param: writeKey Write Key for your Segment project
+  
+    :returns: A beautiful, brand-new, custom built Analytics client just for you. ❤️
+  */
   public static func create(writeKey: String) -> Analytics {
     let executor = SerialExecutor(name:"com.segment.executor." + writeKey)
     let queue = Array<Dictionary<String, AnyObject>>()
     return Analytics(writeKey: writeKey, queue: queue, executor: executor)
   }
   
+  /**
+    Initializes a new Analytics client with the provided parameters.
+  
+    :param: writeKey Write Key for your Segment project
+    :param: queue In memory queue of enqueued events.
+    :param: executor Executor that handles interactions with the messageQueue. This will also be used to upload events.
+  
+    Exposed for testing only. Do not use this directly.
+  */
   public init(writeKey: String, queue: Array<Dictionary<String,AnyObject>>, executor: Executor) {
     self.writeKey = writeKey
     self.messageQueue = queue
     self.executor = executor
   }
   
+  /** Ensures that a message provides either one of userId or anonymousId. */
   static func ensureId(message: Dictionary<String, AnyObject>) {
     if message.indexForKey("userId") == nil && message.indexForKey("anonymousId") == nil {
       NSException(name: "Assertion Failed", reason: "Either userId or anonymousId must be provided.", userInfo: message).raise()
     }
   }
   
-  func request(url: String) -> NSMutableURLRequest {
-    return NSMutableURLRequest(URL: NSURL(string: url)!)
+  /** Returns a NSMutableURLRequest for the given endpoint (relative to https://api.segment.io/v1 by default). */
+  func request(endpoint: String) -> NSMutableURLRequest {
+    return NSMutableURLRequest(URL: NSURL(string: "https://api.segment.io/v1" + endpoint)!)
   }
   
+  /** Returns the current time as an ISO 8601 formatted String. */
   func now() -> String {
     let formatter = NSDateFormatter()
     formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z"
@@ -73,6 +83,12 @@ public class Analytics {
     return formatter.stringFromDate(NSDate())
   }
   
+  /**
+    Enqueue the given message to be uploaded to Segment asynchronously.
+    This function will call MessageBuilder.build and validate the message.
+  
+    :param: messageBuilder The builder instance used to a create a message. Be sure to provide a userId or anonymousId.
+  */
   public func enqueue(messageBuilder: MessageBuilder) {
     var message = messageBuilder.build()
     Analytics.ensureId(message)
@@ -81,25 +97,27 @@ public class Analytics {
     
     executor.submit() {
       self.messageQueue.append(message)
-      if(self.messageQueue.count >= 10) {
+      if(self.messageQueue.count >= self.flushQueueSize) {
         self.performFlush()
       }
     }
   }
   
+  /** Request the client to upload events. This method will asychronously upload the events, and will not block. */
   public func flush() {
     executor.submit() {
       self.performFlush()
     }
   }
   
+  /** Syncrhonously flush events to Segment. */
   func performFlush() {
     let messageCount = messageQueue.count
     var batch = Dictionary<String, AnyObject>()
     batch["batch"] = messageQueue
     batch["context"] = ["library" : ["name": "analytics-swift", "version": AnalyticsVersionNumber]]
     
-    let urlRequest = request("https://api.segment.io/v1/import")
+    let urlRequest = request("/import")
     urlRequest.HTTPMethod = "post";
     urlRequest.setValue("gzip", forHTTPHeaderField: "Accept-Encoding")
     urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")

@@ -22,7 +22,11 @@
 
 import Foundation
 
-/** Abstraction for enqueing tasks. This interface provides a way of decoupling task submission from the mechanics of how each task will be run, including details of thread use, scheduling, etc. Exposed for testing. */
+/** 
+  Abstraction for enqueing tasks. This interface provides a way of decoupling task submission 
+  from the mechanics of how each task will be run, including details of thread use, scheduling, etc.
+  Exposed for testing.
+*/
 public protocol Executor {
   func submit(closure: () -> ())
 }

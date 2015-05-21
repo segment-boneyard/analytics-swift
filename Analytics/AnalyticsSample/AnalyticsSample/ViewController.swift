@@ -11,8 +11,9 @@ import Analytics
 
 class ViewController: NSViewController {
   
-  var analytics: Analytics?
-
+  var analytics: Analytics!
+  @IBOutlet weak var customEventField: NSTextField!
+  
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -25,20 +26,24 @@ class ViewController: NSViewController {
     }
   }
 
-  @IBAction func buttonAClicked(sender: AnyObject) {
-    analytics?.enqueue(TrackMessageBuilder(event: "Button A").userId("prateek"))
+  @IBAction func buttonAClicked(sender: NSButton) {
+    analytics.enqueue(TrackMessageBuilder(event: "Button A").userId("prateek"))
   }
   
-  @IBAction func buttonBClicked(sender: AnyObject) {
-    analytics?.enqueue(TrackMessageBuilder(event: "Button B").userId("prateek"))
+  @IBAction func buttonBClicked(sender: NSButton) {
+    analytics.enqueue(TrackMessageBuilder(event: "Button B").userId("prateek"))
   }
   
-  @IBAction func homeScreenClicked(sender: AnyObject) {
-    analytics?.enqueue(ScreenMessageBuilder(name: "Home").userId("prateek"))
+  @IBAction func homeScreenClicked(sender: NSButton) {
+    analytics.enqueue(ScreenMessageBuilder(name: "Home").userId("prateek"))
   }
   
-  @IBAction func buttonFlushClicked(sender: AnyObject) {
-    analytics?.flush()
+  @IBAction func customEventClicked(sender: NSButton) {
+    analytics.enqueue(TrackMessageBuilder(event: "Custom: " + customEventField.stringValue).userId("prateek"))
+  }
+  
+  @IBAction func buttonFlushClicked(sender: NSButton) {
+    analytics.flush()
   }
   
 }

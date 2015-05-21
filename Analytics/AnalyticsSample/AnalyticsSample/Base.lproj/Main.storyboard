@@ -683,7 +683,7 @@
                                 </buttonCell>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8EO-np-JaA">
-                                <rect key="frame" x="193" y="170" width="95" height="32"/>
+                                <rect key="frame" x="193" y="197" width="95" height="32"/>
                                 <buttonCell key="cell" type="push" title="Button B" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="bb2-V0-5zC">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -692,18 +692,8 @@
                                     <action selector="buttonBClicked:" target="XfG-lQ-9wD" id="FDw-WY-e5y"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uEQ-v3-l36">
-                                <rect key="frame" x="203" y="70" width="74" height="32"/>
-                                <buttonCell key="cell" type="push" title="Flush" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aa5-y1-Pet">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                    <connections>
-                                        <action selector="buttonFlushClicked:" target="XfG-lQ-9wD" id="Fpb-6s-3HQ"/>
-                                    </connections>
-                                </buttonCell>
-                            </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aVE-M3-QwC">
-                                <rect key="frame" x="178" y="118" width="124" height="32"/>
+                                <rect key="frame" x="178" y="90" width="124" height="32"/>
                                 <buttonCell key="cell" type="push" title="Home Screen" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="h0V-j5-ORY">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -712,10 +702,39 @@
                                     <action selector="homeScreenClicked:" target="XfG-lQ-9wD" id="w6e-nT-FZH"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uEQ-v3-l36">
+                                <rect key="frame" x="203" y="13" width="74" height="32"/>
+                                <buttonCell key="cell" type="push" title="Flush" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aa5-y1-Pet">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <connections>
+                                        <action selector="buttonFlushClicked:" target="XfG-lQ-9wD" id="Fpb-6s-3HQ"/>
+                                    </connections>
+                                </buttonCell>
+                            </button>
+                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="M6v-KY-p5r">
+                                <rect key="frame" x="192" y="174" width="96" height="22"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Custom Event" drawsBackground="YES" id="48T-Cl-7CU">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Av-gs-Y8A">
+                                <rect key="frame" x="177" y="138" width="127" height="32"/>
+                                <buttonCell key="cell" type="push" title="Custom Event" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="6Kd-Uj-MNE">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="customEventClicked:" target="XfG-lQ-9wD" id="FH4-Ch-k3N"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="buttonCClicked" destination="aVE-M3-QwC" id="YrK-fA-obF"/>
+                        <outlet property="customEventField" destination="M6v-KY-p5r" id="PoB-M6-T34"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

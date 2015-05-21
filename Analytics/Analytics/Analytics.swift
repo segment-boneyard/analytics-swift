@@ -110,7 +110,7 @@ public class Analytics {
     }
   }
   
-  /** Syncrhonously flush events to Segment. */
+  /** Synchronously flush events to Segment. */
   func performFlush() {
     let messageCount = messageQueue.count
     var batch = Dictionary<String, AnyObject>()

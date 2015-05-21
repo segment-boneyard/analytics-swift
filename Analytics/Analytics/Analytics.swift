@@ -113,6 +113,10 @@ public class Analytics {
   /** Synchronously flush events to Segment. */
   func performFlush() {
     let messageCount = messageQueue.count
+    if (messageCount < 1) {
+      println("no messages to flush")
+      return
+    }
     var batch = Dictionary<String, AnyObject>()
     batch["batch"] = messageQueue
     batch["context"] = ["library" : ["name": "analytics-swift", "version": AnalyticsVersionNumber]]

@@ -14,21 +14,21 @@ CocoaPods instructions coming soon.
 4. In the 'Copy Files' target, select 'Frameworks' as the destination and [drag the `Analytics.framework`](https://cloudup.com/cliU4MKF69U) file from the binary we added to the project in step 2.
 
 ## Usage
-1. Add the `AnalyticsSwift` library to your project.
+* Add the `AnalyticsSwift` library to your project.
 
-2. Create an instance of the analytics client with your project write key:
+* Create an instance of the analytics client with your project write key:
 
 `var analytics = Analytics.create(YOUR_SEGMENT_WRITE_KEY_HERE)`
 
-3. Create an instance of a message (either [`identify`](https://segment.com/docs/libraries/http/#identify), [`group`](https://segment.com/docs/libraries/http/#group), [`track`](https://segment.com/docs/libraries/http/#track), [`screen`](https://segment.com/docs/libraries/http/#screen), [`alias`](https://segment.com/docs/libraries/http/#alias)). Note that either `userId` or `anonymousId` is always required.
+* Create an instance of a message (either [`identify`](https://segment.com/docs/libraries/http/#identify), [`group`](https://segment.com/docs/libraries/http/#group), [`track`](https://segment.com/docs/libraries/http/#track), [`screen`](https://segment.com/docs/libraries/http/#screen), [`alias`](https://segment.com/docs/libraries/http/#alias)). Note that either `userId` or `anonymousId` is always required.
 
 `var message = TrackMessageBuilder(event: "Button A").userId("prateek")`
 
-4. Enqueue the message.
+* Enqueue the message.
 
 `analytics.enqueue(message)`
 
-5. Wait for the message to be uploaded or trigger a flush manually.
+* Wait for the message to be uploaded or trigger a flush manually.
 
 `analytics.flush()`
 

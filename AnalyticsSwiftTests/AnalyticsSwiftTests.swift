@@ -22,20 +22,20 @@
 
 import Cocoa
 import XCTest
-import Analytics
+import AnalyticsSwift
 
-class AnalyticsTests: XCTestCase {
+class AnalyticsSwiftTests: XCTestCase {
   
   override func setUp() {
     super.setUp()
     // Put setup code here. This method is called before the invocation of each test method in the class.
   }
-    
+  
   override func tearDown() {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     super.tearDown()
   }
-    
+  
   func testExample() {
     var analytics = Analytics(writeKey: "Z2qQi0HsunlFVULJmUi6R0JAwIF2S7R1", queue: Array(), executor: SynchronousExecutor(name: "com.segment.executor.test"))
     for index in 1...21 {

@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 import Foundation
-import Analytics
+import AnalyticsSwift
 
 /** An Executor implementation that runs tasks and blocks until they complete. */
 public class SynchronousExecutor: Executor {

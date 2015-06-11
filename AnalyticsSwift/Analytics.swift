@@ -119,7 +119,7 @@ public class Analytics {
     }
     var batch = Dictionary<String, AnyObject>()
     batch["batch"] = messageQueue
-    batch["context"] = ["library" : ["name": "analytics-swift", "version": AnalyticsVersionNumber]]
+    batch["context"] = ["library" : ["name": "analytics-swift", "version": AnalyticsSwiftVersionNumber]]
     
     let urlRequest = request("/import")
     urlRequest.HTTPMethod = "post";

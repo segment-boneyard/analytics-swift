@@ -6,7 +6,7 @@ clean:
 	@xcodebuild clean
 
 test:
-	@xctool -scheme Analytics test
+	@xctool -scheme AnalyticsSwift test
 
 build:
 	@xcodebuild

@@ -5,7 +5,7 @@ analytics-swift is an Swift client for [Segment](https://segment.com)
 ## Installing the Library
 
 #### CocoaPods
-CocoaPods instructions coming soon.
+`pod 'AnalyticsSwift', '~> 0.1.0'`
 
 #### Manual
 1. Download the [latest binary](https://github.com/segmentio/analytics-swift/releases) of the library.

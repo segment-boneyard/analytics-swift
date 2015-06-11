@@ -32,6 +32,10 @@ analytics-swift is an Swift client for [Segment](https://segment.com)
 
 `analytics.flush()`
 
+## Examples
+
+You can see basic examples of the library in action [here](https://github.com/segmentio/analytics-swift-example).
+
 ## License
 
 ```

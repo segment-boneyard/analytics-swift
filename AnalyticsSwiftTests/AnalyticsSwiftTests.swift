@@ -43,10 +43,10 @@ class AnalyticsSwiftTests: XCTestCase {
       analytics.enqueue(TrackMessageBuilder(event: "bye, world" + String(index)).userId("prateek"))
     }
     
-    println("Sent messages to client.")
+    print("Sent messages to client.")
     
     analytics.flush()
     
-    println("Triggered explicit flush.")
+    print("Triggered explicit flush.")
   }
 }

@@ -8,7 +8,7 @@ analytics-swift is an Swift client for [Segment](https://segment.com)
 ```
 use_frameworks!
 
-pod 'AnalyticsSwift', '~> 0.1.0'
+pod 'AnalyticsSwift', '~> 0.2.0'
 ```
 
 #### Manual

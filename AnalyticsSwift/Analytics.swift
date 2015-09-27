@@ -36,9 +36,9 @@ public class Analytics {
   /**
     Initializes a new Analytics client with the provided parameters.
   
-    :param: writeKey Write Key for your Segment project
+    - parameter writeKey: Write Key for your Segment project
   
-    :returns: A beautiful, brand-new, custom built Analytics client just for you. ❤️
+    - returns: A beautiful, brand-new, custom built Analytics client just for you. ❤️
   */
   public static func create(writeKey: String) -> Analytics {
     let executor = SerialExecutor(name:"com.segment.executor." + writeKey)
@@ -49,9 +49,9 @@ public class Analytics {
   /**
     Initializes a new Analytics client with the provided parameters.
   
-    :param: writeKey Write Key for your Segment project
-    :param: queue In memory queue of enqueued events.
-    :param: executor Executor that handles interactions with the messageQueue. This will also be used to upload events.
+    - parameter writeKey: Write Key for your Segment project
+    - parameter queue: In memory queue of enqueued events.
+    - parameter executor: Executor that handles interactions with the messageQueue. This will also be used to upload events.
   
     Exposed for testing only. Do not use this directly.
   */
@@ -87,7 +87,7 @@ public class Analytics {
     Enqueue the given message to be uploaded to Segment asynchronously.
     This function will call MessageBuilder.build and validate the message.
   
-    :param: messageBuilder The builder instance used to a create a message. Be sure to provide a userId or anonymousId.
+    - parameter messageBuilder: The builder instance used to a create a message. Be sure to provide a userId or anonymousId.
   */
   public func enqueue(messageBuilder: MessageBuilder) {
     var message = messageBuilder.build()
@@ -114,7 +114,7 @@ public class Analytics {
   func performFlush() {
     let messageCount = messageQueue.count
     if (messageCount < 1) {
-      println("no messages to flush")
+      print("no messages to flush")
       return
     }
     var batch = Dictionary<String, AnyObject>()
@@ -128,21 +128,31 @@ public class Analytics {
     urlRequest.setValue(Credentials.basic(writeKey, password: ""), forHTTPHeaderField: "Authorization")
     
     var jsonError: NSError?
-    let decodedJson = NSJSONSerialization.dataWithJSONObject(batch, options: nil, error: &jsonError)
+    let decodedJson: NSData?
+    do {
+      decodedJson = try NSJSONSerialization.dataWithJSONObject(batch, options: [])
+    } catch let error as NSError {
+      jsonError = error
+      decodedJson = nil
+    }
     if jsonError != nil {
-      println("Failed to serialize messages. Dropping \(messageCount) messages.")
+      print("Failed to serialize messages. Dropping \(messageCount) messages.")
       messageQueue.removeAll(keepCapacity: true)
       return
     }
     urlRequest.HTTPBody = decodedJson
     
-    println("Uploading \(messageCount) messages.")
+    print("Uploading \(messageCount) messages.")
     
     var networkError: NSError?
     var response: NSURLResponse?
-    NSURLConnection.sendSynchronousRequest(urlRequest, returningResponse: &response, error: &networkError)
+    do {
+      try NSURLConnection.sendSynchronousRequest(urlRequest, returningResponse: &response)
+    } catch let error as NSError {
+      networkError = error
+    }
     if networkError != nil {
-      println("Failed to upload messages. Retrying later.")
+      print("Failed to upload messages. Retrying later.")
       return
     }
     

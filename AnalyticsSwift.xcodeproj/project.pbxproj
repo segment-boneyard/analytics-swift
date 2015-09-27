@@ -191,6 +191,8 @@
 		6E33515B1B290AE8000EF548 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = Segment;
 				TargetAttributes = {
@@ -447,6 +449,7 @@
 				6E33517C1B290AE8000EF548 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6E33517D1B290AE8000EF548 /* Build configuration list for PBXNativeTarget "AnalyticsSwiftTests" */ = {
 			isa = XCConfigurationList;
@@ -455,6 +458,7 @@
 				6E33517F1B290AE8000EF548 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

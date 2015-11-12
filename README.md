@@ -1,6 +1,8 @@
 # analytics-swift 
 
-analytics-swift is an Swift client for [Segment](https://segment.com)
+analytics-swift is an Swift client for [Segment](https://segment.com).
+
+Our [analytics-ios](https://github.com/segmentio/analytics-ios) library is more full featured than it's pure Swift counterpart. If you need those advanced features and support for client side integrations, please use it instead.
 
 ## Installing the Library
 

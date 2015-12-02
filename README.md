@@ -1,4 +1,4 @@
-# analytics-swift 
+# analytics-swift [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 analytics-swift is an Swift client for [Segment](https://segment.com).
 

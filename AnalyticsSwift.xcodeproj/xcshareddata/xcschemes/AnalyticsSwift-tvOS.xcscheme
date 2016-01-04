@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "DDD7F4E61C0F8C73001FC457"
-               BuildableName = "AnalyticsSwift-tvOS.framework"
+               BuildableName = "AnalyticsSwift.framework"
                BlueprintName = "AnalyticsSwift-tvOS"
                ReferencedContainer = "container:AnalyticsSwift.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DDD7F4E61C0F8C73001FC457"
-            BuildableName = "AnalyticsSwift-tvOS.framework"
+            BuildableName = "AnalyticsSwift.framework"
             BlueprintName = "AnalyticsSwift-tvOS"
             ReferencedContainer = "container:AnalyticsSwift.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DDD7F4E61C0F8C73001FC457"
-            BuildableName = "AnalyticsSwift-tvOS.framework"
+            BuildableName = "AnalyticsSwift.framework"
             BlueprintName = "AnalyticsSwift-tvOS"
             ReferencedContainer = "container:AnalyticsSwift.xcodeproj">
          </BuildableReference>

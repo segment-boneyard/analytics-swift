@@ -2,7 +2,12 @@
 
 analytics-swift is an Swift client for [Segment](https://segment.com).
 
-Our [analytics-ios](https://github.com/segmentio/analytics-ios) library is more full featured than it's pure Swift counterpart. If you need those advanced features and support for client side integrations, please use it instead.
+Our [analytics-ios](https://github.com/segmentio/analytics-ios) library is more full featured than it's Swift counterpart. You can use analytics-ios from a Swift project.
+
+The analytics-ios library supports the following features that are *NOT* offered in the Swift library:
+
+* Queing events offline. Without this, the swift library will drop events once the user closes the app or when the user is offline.
+* Client side integrations. Without this, some integrations (such as Flurry, Localytics and others) cannot be used with the Swift library.
 
 ## Installing the Library
 

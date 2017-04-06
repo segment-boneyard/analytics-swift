@@ -22,37 +22,37 @@
 
 import Foundation
 
-public class IdentifyMessageBuilder: MessageBuilder {
-  private var dictionary: Dictionary<String, AnyObject>
+open class IdentifyMessageBuilder: MessageBuilder {
+  fileprivate var dictionary: Dictionary<String, AnyObject>
   
   public init() {
     dictionary = Dictionary()
     
-    dictionary["type"] = "identify"
+    dictionary["type"] = "identify" as AnyObject?
   }
   
-  public func traits(traits: Dictionary<String, AnyObject>) -> IdentifyMessageBuilder {
-    dictionary["traits"] = traits
+  open func traits(_ traits: Dictionary<String, AnyObject>) -> IdentifyMessageBuilder {
+    dictionary["traits"] = traits as AnyObject?
     return self
   }
   
   // Common
-  public func userId(userId: String) -> IdentifyMessageBuilder {
-    dictionary["userId"] = userId
+  open func userId(_ userId: String) -> IdentifyMessageBuilder {
+    dictionary["userId"] = userId as AnyObject?
     return self
   }
   
-  public func anonymousId(anonymousId: String) -> IdentifyMessageBuilder {
-    dictionary["anonymousId"] = anonymousId
+  open func anonymousId(_ anonymousId: String) -> IdentifyMessageBuilder {
+    dictionary["anonymousId"] = anonymousId as AnyObject?
     return self
   }
   
-  public func context(context: Dictionary<String, AnyObject>) -> IdentifyMessageBuilder {
-    dictionary["context"] = context
+  open func context(_ context: Dictionary<String, AnyObject>) -> IdentifyMessageBuilder {
+    dictionary["context"] = context as AnyObject?
     return self
   }
   
-  public func build() -> Dictionary<String, AnyObject> {
+  open func build() -> Dictionary<String, AnyObject> {
     return dictionary
   }
 }

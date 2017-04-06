@@ -22,33 +22,33 @@
 
 import Foundation
 
-public class AliasMessageBuilder: MessageBuilder {
-  private var dictionary: Dictionary<String, AnyObject>
+open class AliasMessageBuilder: MessageBuilder {
+  fileprivate var dictionary: Dictionary<String, AnyObject>
   
   public init(previousId: String) {
     dictionary = Dictionary()
     
-    dictionary["type"] = "alias"
-    dictionary["previousId"] = previousId
+    dictionary["type"] = "alias" as AnyObject?
+    dictionary["previousId"] = previousId as AnyObject?
   }
   
   // Common
-  public func userId(userId: String) -> AliasMessageBuilder {
-    dictionary["userId"] = userId
+  open func userId(_ userId: String) -> AliasMessageBuilder {
+    dictionary["userId"] = userId as AnyObject?
     return self
   }
   
-  public func anonymousId(anonymousId: String) -> AliasMessageBuilder {
-    dictionary["anonymousId"] = anonymousId
+  open func anonymousId(_ anonymousId: String) -> AliasMessageBuilder {
+    dictionary["anonymousId"] = anonymousId as AnyObject?
     return self
   }
   
-  public func context(context: Dictionary<String, AnyObject>) -> AliasMessageBuilder {
-    dictionary["context"] = context
+  open func context(_ context: Dictionary<String, AnyObject>) -> AliasMessageBuilder {
+    dictionary["context"] = context as AnyObject?
     return self
   }
   
-  public func build() -> Dictionary<String, AnyObject> {
+  open func build() -> Dictionary<String, AnyObject> {
     return dictionary
   }
 }

@@ -22,38 +22,38 @@
 
 import Foundation
 
-public class ScreenMessageBuilder: MessageBuilder {
-  private var dictionary: Dictionary<String, AnyObject>
+open class ScreenMessageBuilder: MessageBuilder {
+  fileprivate var dictionary: Dictionary<String, AnyObject>
   
   public init(name: String) {
     dictionary = Dictionary()
     
-    dictionary["type"] = "screen"
-    dictionary["name"] = name
+    dictionary["type"] = "screen" as AnyObject?
+    dictionary["name"] = name as AnyObject?
   }
   
-  public func properties(properties: Dictionary<String, AnyObject>) -> ScreenMessageBuilder {
-    dictionary["properties"] = properties
+  open func properties(_ properties: Dictionary<String, AnyObject>) -> ScreenMessageBuilder {
+    dictionary["properties"] = properties as AnyObject?
     return self
   }
   
   // Common
-  public func userId(userId: String) -> ScreenMessageBuilder {
-    dictionary["userId"] = userId
+  open func userId(_ userId: String) -> ScreenMessageBuilder {
+    dictionary["userId"] = userId as AnyObject?
     return self
   }
   
-  public func anonymousId(anonymousId: String) -> ScreenMessageBuilder {
-    dictionary["anonymousId"] = anonymousId
+  open func anonymousId(_ anonymousId: String) -> ScreenMessageBuilder {
+    dictionary["anonymousId"] = anonymousId as AnyObject?
     return self
   }
   
-  public func context(context: Dictionary<String, AnyObject>) -> ScreenMessageBuilder {
-    dictionary["context"] = context
+  open func context(_ context: Dictionary<String, AnyObject>) -> ScreenMessageBuilder {
+    dictionary["context"] = context as AnyObject?
     return self
   }
   
-  public func build() -> Dictionary<String, AnyObject> {
+  open func build() -> Dictionary<String, AnyObject> {
     return dictionary
   }
 }

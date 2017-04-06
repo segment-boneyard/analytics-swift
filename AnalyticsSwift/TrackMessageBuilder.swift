@@ -22,38 +22,38 @@
 
 import Foundation
 
-public class TrackMessageBuilder: MessageBuilder {
-  private var dictionary: Dictionary<String, AnyObject>
+open class TrackMessageBuilder: MessageBuilder {
+  fileprivate var dictionary: Dictionary<String, AnyObject>
 
   public init(event: String) {
     dictionary = Dictionary()
     
-    dictionary["type"] = "track"
-    dictionary["event"] = event
+    dictionary["type"] = "track" as AnyObject?
+    dictionary["event"] = event as AnyObject?
   }
 
-  public func properties(properties: Dictionary<String, AnyObject>) -> TrackMessageBuilder {
-    dictionary["properties"] = properties
+  open func properties(_ properties: Dictionary<String, AnyObject>) -> TrackMessageBuilder {
+    dictionary["properties"] = properties as AnyObject?
     return self
   }
   
   // Common
-  public func userId(userId: String) -> TrackMessageBuilder {
-    dictionary["userId"] = userId
+  open func userId(_ userId: String) -> TrackMessageBuilder {
+    dictionary["userId"] = userId as AnyObject?
     return self
   }
   
-  public func anonymousId(anonymousId: String) -> TrackMessageBuilder {
-    dictionary["anonymousId"] = anonymousId
+  open func anonymousId(_ anonymousId: String) -> TrackMessageBuilder {
+    dictionary["anonymousId"] = anonymousId as AnyObject?
     return self
   }
   
-  public func context(context: Dictionary<String, AnyObject>) -> TrackMessageBuilder {
-    dictionary["context"] = context
+  open func context(_ context: Dictionary<String, AnyObject>) -> TrackMessageBuilder {
+    dictionary["context"] = context as AnyObject?
     return self
   }
   
-  public func build() -> Dictionary<String, AnyObject> {
+  open func build() -> Dictionary<String, AnyObject> {
     return dictionary
   }
   

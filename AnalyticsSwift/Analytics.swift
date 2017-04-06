@@ -23,7 +23,7 @@
 import Foundation
 
 /// The entry point into the Analytics for Swift library.
-public class Analytics {
+open class Analytics {
   /// The writeKey for the Segment project this client will upload events to.
   var writeKey: String
   /// In memory queue of enqueued events.
@@ -40,7 +40,7 @@ public class Analytics {
   
     - returns: A beautiful, brand-new, custom built Analytics client just for you. ❤️
   */
-  public static func create(writeKey: String) -> Analytics {
+  open static func create(_ writeKey: String) -> Analytics {
     let executor = SerialExecutor(name:"com.segment.executor." + writeKey)
     let queue = Array<Dictionary<String, AnyObject>>()
     return Analytics(writeKey: writeKey, queue: queue, executor: executor)
@@ -62,25 +62,25 @@ public class Analytics {
   }
   
   /** Ensures that a message provides either one of userId or anonymousId. */
-  static func ensureId(message: Dictionary<String, AnyObject>) {
-    if message.indexForKey("userId") == nil && message.indexForKey("anonymousId") == nil {
-      NSException(name: "Assertion Failed", reason: "Either userId or anonymousId must be provided.", userInfo: message).raise()
+  static func ensureId(_ message: Dictionary<String, AnyObject>) {
+    if message.index(forKey: "userId") == nil && message.index(forKey: "anonymousId") == nil {
+      NSException(name: NSExceptionName(rawValue: "Assertion Failed"), reason: "Either userId or anonymousId must be provided.", userInfo: message).raise()
     }
   }
   
   /** Returns a NSMutableURLRequest for the given endpoint (relative to https://api.segment.io/v1 by default). */
-  func request(endpoint: String) -> NSMutableURLRequest {
-    return NSMutableURLRequest(URL: NSURL(string: "https://api.segment.io/v1" + endpoint)!)
+  func request(_ endpoint: String) -> NSMutableURLRequest {
+    return NSMutableURLRequest(url: URL(string: "https://api.segment.io/v1" + endpoint)!)
   }
   
   /** Returns the current time as an ISO 8601 formatted String. */
   func now() -> String {
-    let formatter = NSDateFormatter()
+    let formatter = DateFormatter()
     formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z"
-    formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
-    formatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)!
-    formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-    return formatter.stringFromDate(NSDate())
+    formatter.timeZone = TimeZone(secondsFromGMT: 0)
+    formatter.calendar = Calendar(identifier: Calendar.Identifier.iso8601)
+    formatter.locale = Locale(identifier: "en_US_POSIX")
+    return formatter.string(from: Date())
   }
   
   /**
@@ -89,11 +89,11 @@ public class Analytics {
   
     - parameter messageBuilder: The builder instance used to a create a message. Be sure to provide a userId or anonymousId.
   */
-  public func enqueue(messageBuilder: MessageBuilder) {
+  open func enqueue(_ messageBuilder: MessageBuilder) {
     var message = messageBuilder.build()
     Analytics.ensureId(message)
-    message["messageId"] = NSUUID().UUIDString
-    message["timestamp"] = now()
+    message["messageId"] = UUID().uuidString as AnyObject?
+    message["timestamp"] = now() as AnyObject?
     
     executor.submit() {
       self.messageQueue.append(message)
@@ -104,7 +104,7 @@ public class Analytics {
   }
   
   /** Request the client to upload events. This method will asychronously upload the events, and will not block. */
-  public func flush() {
+  open func flush() {
     executor.submit() {
       self.performFlush()
     }
@@ -117,37 +117,37 @@ public class Analytics {
       print("no messages to flush")
       return
     }
-    var batch = Dictionary<String, AnyObject>()
-    batch["batch"] = messageQueue
+    var batch = Dictionary<String, Any>()
+    batch["batch"] = messageQueue as Any?
     batch["context"] = ["library" : ["name": "analytics-swift", "version": AnalyticsSwiftVersionNumber]]
     
     let urlRequest = request("/import")
-    urlRequest.HTTPMethod = "post";
+    urlRequest.httpMethod = "post";
     urlRequest.setValue("gzip", forHTTPHeaderField: "Accept-Encoding")
     urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
     urlRequest.setValue(Credentials.basic(writeKey, password: ""), forHTTPHeaderField: "Authorization")
     
     var jsonError: NSError?
-    let decodedJson: NSData?
+    let decodedJson: Data?
     do {
-      decodedJson = try NSJSONSerialization.dataWithJSONObject(batch, options: [])
+      decodedJson = try JSONSerialization.data(withJSONObject: batch, options: [])
     } catch let error as NSError {
       jsonError = error
       decodedJson = nil
     }
     if jsonError != nil {
       print("Failed to serialize messages. Dropping \(messageCount) messages.")
-      messageQueue.removeAll(keepCapacity: true)
+      messageQueue.removeAll(keepingCapacity: true)
       return
     }
-    urlRequest.HTTPBody = decodedJson
+    urlRequest.httpBody = decodedJson
     
     print("Uploading \(messageCount) messages.")
     
     var networkError: NSError?
-    var response: NSURLResponse?
+    var response: URLResponse?
     do {
-      try NSURLConnection.sendSynchronousRequest(urlRequest, returningResponse: &response)
+      try NSURLConnection.sendSynchronousRequest(urlRequest as URLRequest, returning: &response)
     } catch let error as NSError {
       networkError = error
     }
@@ -156,6 +156,6 @@ public class Analytics {
       return
     }
     
-    messageQueue.removeAll(keepCapacity: true)
+    messageQueue.removeAll(keepingCapacity: true)
   }
 }

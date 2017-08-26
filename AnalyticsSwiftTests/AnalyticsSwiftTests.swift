@@ -24,29 +24,16 @@ import Cocoa
 import XCTest
 import AnalyticsSwift
 
-class AnalyticsSwiftTests: XCTestCase {
-  
-  override func setUp() {
-    super.setUp()
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-  }
-  
-  override func tearDown() {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    super.tearDown()
-  }
-  
-  func testExample() {
-    var analytics = Analytics(writeKey: "Z2qQi0HsunlFVULJmUi6R0JAwIF2S7R1", queue: Array(), executor: SynchronousExecutor(name: "com.segment.executor.test"))
-    for index in 1...21 {
-      analytics.enqueue(TrackMessageBuilder(event: "hello, world" + String(index)).userId("prateek"))
-      analytics.enqueue(TrackMessageBuilder(event: "bye, world" + String(index)).userId("prateek"))
+final class AnalyticsSwiftTests: XCTestCase {
+    func testExample() {
+        let analytics = Analytics(writeKey: "Z2qQi0HsunlFVULJmUi6R0JAwIF2S7R1", queue: Array(),
+                                  executor: SynchronousExecutor(name: "com.segment.executor.test"))
+        for index in 1...21 {
+            analytics.enqueue(messageBuilder: TrackMessageBuilder(event: "hello, world" + String(index)).userId("prateek"))
+            analytics.enqueue(messageBuilder: TrackMessageBuilder(event: "bye, world" + String(index)).userId("prateek"))
+        }
+        print("Sent messages to client.")
+        analytics.flush()
+        print("Triggered explicit flush.")
     }
-    
-    print("Sent messages to client.")
-    
-    analytics.flush()
-    
-    print("Triggered explicit flush.")
-  }
 }

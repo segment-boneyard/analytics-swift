@@ -23,37 +23,36 @@
 import Foundation
 
 public class GroupMessageBuilder: MessageBuilder {
-  private var dictionary: Dictionary<String, AnyObject>
+    private var dictionary: [String: AnyObject] = [:]
   
-  public init(groupId: String) {
-    dictionary = Dictionary()
-    
-    dictionary["type"] = "group"
-    dictionary["groupId"] = groupId
-  }
+    public init(groupId: String) {
+        dictionary["type"] = "group" as AnyObject
+        dictionary["groupId"] = groupId as AnyObject
+    }
   
-  public func traits(traits: Dictionary<String, AnyObject>) -> GroupMessageBuilder {
-    dictionary["traits"] = traits
-    return self
-  }
+    public func traits(_ traits: [String: AnyObject]) -> GroupMessageBuilder {
+        dictionary["traits"] = traits as AnyObject
+        return self
+    }
   
-  // Common
-  public func userId(userId: String) -> GroupMessageBuilder {
-    dictionary["userId"] = userId
-    return self
-  }
+    // Common
+
+    public func userId(_ userId: String) -> GroupMessageBuilder {
+        dictionary["userId"] = userId as AnyObject
+        return self
+    }
   
-  public func anonymousId(anonymousId: String) -> GroupMessageBuilder {
-    dictionary["anonymousId"] = anonymousId
-    return self
-  }
+    public func anonymousId(_ anonymousId: String) -> GroupMessageBuilder {
+        dictionary["anonymousId"] = anonymousId as AnyObject
+        return self
+    }
   
-  public func context(context: Dictionary<String, AnyObject>) -> GroupMessageBuilder {
-    dictionary["context"] = context
-    return self
-  }
+    public func context(_ context: [String: AnyObject]) -> GroupMessageBuilder {
+        dictionary["context"] = context as AnyObject
+        return self
+    }
   
-  public func build() -> Dictionary<String, AnyObject> {
-    return dictionary
-  }
+    public func build() -> [String: AnyObject] {
+        return dictionary
+    }
 }

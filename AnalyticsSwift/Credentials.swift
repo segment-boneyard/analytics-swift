@@ -22,18 +22,29 @@
 
 import Foundation
 
-/** Factory for HTTP authorization credentials. Exposed for testing. */
-public class Credentials {
-  
-  /** Returns this string encoded as Base64. */
-  private static func base64(string: String) -> String {
-    let utf8str = string.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!
-    return utf8str.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
-  }
-  
-  /** Returns an auth credential for the Basic scheme. Exposed for testing. */
-  public static func basic(username: String, password: String) -> String {
-    return String(format: "Basic %@", base64(String(format: "%@:%@", username, password)))
-  }
+/** 
+ Factory for HTTP authorization credentials. Exposed for testing. 
+*/
 
+public class Credentials {
+
+    /** 
+     Returns an auth credential for the Basic scheme. Exposed for testing. 
+    */
+
+    public static func basic(username: String, password: String) -> String {
+        return String(format: "Basic %@", String(format: "%@:%@", username, password).base64)
+    }
+}
+
+extension String {
+
+    /**
+     Returns Base64 encoded string.
+     */
+    
+    var base64: String {
+        let utf8str = data(using: .utf8, allowLossyConversion: false)
+        return utf8str?.base64EncodedString(options: .lineLength64Characters) ?? ""
+    }
 }

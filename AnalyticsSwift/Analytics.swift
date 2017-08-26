@@ -22,140 +22,170 @@
 
 import Foundation
 
-/// The entry point into the Analytics for Swift library.
+/**
+ The entry point into the Analytics for Swift library.
+*/
+
 public class Analytics {
-  /// The writeKey for the Segment project this client will upload events to.
-  var writeKey: String
-  /// In memory queue of enqueued events.
-  var messageQueue: Array<Dictionary<String, AnyObject>>
-  /// Executor that handles interactions with the messageQueue. This will also be used to upload events.
-  var executor: Executor
-  /// Queue size at which we automatically upload events
-  let flushQueueSize = 10
+
+    /** 
+    The writeKey for the Segment project this client will upload events to.
+    */
+
+    private let writeKey: String
+
+    /**
+     In memory queue of enqueued events.
+    */
+
+    private var messageQueue: [[String: AnyObject]]
+
+    /** 
+     Executor that handles interactions with the messageQueue. This will also be used to upload events.
+    */
+
+    private let executor: Executor
+
+    /** 
+     Queue size at which we automatically upload events
+    */
+
+    private let flushQueueSize = 10
+
+    // MARK: Public interface
   
-  /**
-    Initializes a new Analytics client with the provided parameters.
-  
-    - parameter writeKey: Write Key for your Segment project
-  
-    - returns: A beautiful, brand-new, custom built Analytics client just for you. ❤️
-  */
-  public static func create(writeKey: String) -> Analytics {
-    let executor = SerialExecutor(name:"com.segment.executor." + writeKey)
-    let queue = Array<Dictionary<String, AnyObject>>()
-    return Analytics(writeKey: writeKey, queue: queue, executor: executor)
-  }
-  
-  /**
-    Initializes a new Analytics client with the provided parameters.
-  
-    - parameter writeKey: Write Key for your Segment project
-    - parameter queue: In memory queue of enqueued events.
-    - parameter executor: Executor that handles interactions with the messageQueue. This will also be used to upload events.
-  
-    Exposed for testing only. Do not use this directly.
-  */
-  public init(writeKey: String, queue: Array<Dictionary<String,AnyObject>>, executor: Executor) {
-    self.writeKey = writeKey
-    self.messageQueue = queue
-    self.executor = executor
-  }
-  
-  /** Ensures that a message provides either one of userId or anonymousId. */
-  static func ensureId(message: Dictionary<String, AnyObject>) {
-    if message.indexForKey("userId") == nil && message.indexForKey("anonymousId") == nil {
-      NSException(name: "Assertion Failed", reason: "Either userId or anonymousId must be provided.", userInfo: message).raise()
+    /**
+     Initializes a new Analytics client with the provided parameters.
+     - parameter writeKey: Write Key for your Segment project
+     - returns: A beautiful, brand-new, custom built Analytics client just for you. ❤️
+    */
+
+    public static func create(writeKey: String) -> Analytics {
+        let executor = SerialExecutor(name:"com.segment.executor." + writeKey)
+        return Analytics(writeKey: writeKey, queue: [], executor: executor)
     }
-  }
   
-  /** Returns a NSMutableURLRequest for the given endpoint (relative to https://api.segment.io/v1 by default). */
-  func request(endpoint: String) -> NSMutableURLRequest {
-    return NSMutableURLRequest(URL: NSURL(string: "https://api.segment.io/v1" + endpoint)!)
-  }
+    /**
+     Initializes a new Analytics client with the provided parameters.
+     - parameter writeKey: Write Key for your Segment project
+     - parameter queue: In memory queue of enqueued events.
+     - parameter executor: Executor that handles interactions with the messageQueue. This will also be used to upload events.
+     Exposed for testing only. Do not use this directly.
+    */
+
+    public init(writeKey: String, queue: [[String: AnyObject]], executor: Executor) {
+        self.writeKey = writeKey
+        self.messageQueue = queue
+        self.executor = executor
+    }
+
+    /**
+     Enqueue the given message to be uploaded to Segment asynchronously.
+     This function will call MessageBuilder.build and validate the message.
+     - parameter messageBuilder: The builder instance used to a create a message. Be sure to provide a userId or anonymousId.
+    */
+
+    public func enqueue(messageBuilder: MessageBuilder) {
+        var message = messageBuilder.build()
+        Analytics.ensureId(message: message)
+        message["messageId"] = UUID().uuidString as AnyObject
+        message["timestamp"] = now as AnyObject
+        executor.submit {
+            self.messageQueue.append(message)
+            if self.messageQueue.count >= self.flushQueueSize {
+                self.performFlush()
+            }
+        }
+    }
+
+    /**
+     Request the client to upload events. This method will asychronously upload the events, and will not block.
+    */
+
+    public func flush() {
+        executor.submit(task: performFlush)
+    }
+
+    // MARK: Private methods
   
-  /** Returns the current time as an ISO 8601 formatted String. */
-  func now() -> String {
-    let formatter = NSDateFormatter()
-    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z"
-    formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
-    formatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)!
-    formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-    return formatter.stringFromDate(NSDate())
-  }
+    /** 
+     Ensures that a message provides either one of userId or anonymousId. 
+    */
+
+    private static func ensureId(message: [String: AnyObject]) {
+        let idExists = message.keys.contains("userId") || message.keys.contains("anonymousId")
+        assert(idExists, "Either userId or anonymousId must be provided.")
+    }
   
-  /**
-    Enqueue the given message to be uploaded to Segment asynchronously.
-    This function will call MessageBuilder.build and validate the message.
+    /** 
+     Returns a URLRequest for the given endpoint (relative to https://api.segment.io/v1 by default).
+    */
+
+    private func request(endpoint: String) -> URLRequest {
+        return URLRequest(url: URL(string: "https://api.segment.io/v1" + endpoint)!)
+    }
   
-    - parameter messageBuilder: The builder instance used to a create a message. Be sure to provide a userId or anonymousId.
-  */
-  public func enqueue(messageBuilder: MessageBuilder) {
-    var message = messageBuilder.build()
-    Analytics.ensureId(message)
-    message["messageId"] = NSUUID().UUIDString
-    message["timestamp"] = now()
-    
-    executor.submit() {
-      self.messageQueue.append(message)
-      if(self.messageQueue.count >= self.flushQueueSize) {
-        self.performFlush()
-      }
+    /** 
+     Returns the current time as an ISO 8601 formatted String. 
+    */
+
+    private var now: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z"
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.calendar = Calendar(identifier: .iso8601)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        return formatter.string(from: Date())
     }
-  }
   
-  /** Request the client to upload events. This method will asychronously upload the events, and will not block. */
-  public func flush() {
-    executor.submit() {
-      self.performFlush()
+    /** 
+     Synchronously flush events to Segment. 
+    */
+
+    private func performFlush() {
+        guard messageQueue.count > 0 else {
+            print("No messages to flush")
+            return
+        }
+        guard let messagesData = messagesData else {
+            print("Failed to serialize messages. Dropping \(messageQueue.count) messages.")
+            messageQueue.removeAll(keepingCapacity: true)
+            return
+        }
+        let request = urlRequest(for: messagesData)
+        print("Uploading \(messageQueue.count) messages.")
+        URLSession.shared.dataTask(with: request)
+        messageQueue.removeAll(keepingCapacity: true)
     }
-  }
-  
-  /** Synchronously flush events to Segment. */
-  func performFlush() {
-    let messageCount = messageQueue.count
-    if (messageCount < 1) {
-      print("no messages to flush")
-      return
+
+    /**
+     Returns serialized events.
+    */
+
+    private var messagesData: Data? {
+        let batch: [String: AnyObject] = [
+            "batch": messageQueue as AnyObject,
+            "context": [
+                "library": [
+                    "name": "analytics-swift",
+                    "version": AnalyticsSwiftVersionNumber
+                ]
+            ] as AnyObject
+        ]
+        return try? JSONSerialization.data(withJSONObject: batch, options: [])
     }
-    var batch = Dictionary<String, AnyObject>()
-    batch["batch"] = messageQueue
-    batch["context"] = ["library" : ["name": "analytics-swift", "version": AnalyticsSwiftVersionNumber]]
-    
-    let urlRequest = request("/import")
-    urlRequest.HTTPMethod = "post";
-    urlRequest.setValue("gzip", forHTTPHeaderField: "Accept-Encoding")
-    urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    urlRequest.setValue(Credentials.basic(writeKey, password: ""), forHTTPHeaderField: "Authorization")
-    
-    var jsonError: NSError?
-    let decodedJson: NSData?
-    do {
-      decodedJson = try NSJSONSerialization.dataWithJSONObject(batch, options: [])
-    } catch let error as NSError {
-      jsonError = error
-      decodedJson = nil
+
+    /**
+     Returns URLRequest to be fired to send events to Segment.
+    */
+
+    private func urlRequest(for messagesData: Data) -> URLRequest {
+        var urlRequest = request(endpoint: "/import")
+        urlRequest.httpMethod = "post"
+        urlRequest.setValue("gzip", forHTTPHeaderField: "Accept-Encoding")
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.setValue(Credentials.basic(username: writeKey, password: ""), forHTTPHeaderField: "Authorization")
+        urlRequest.httpBody = messagesData
+        return urlRequest
     }
-    if jsonError != nil {
-      print("Failed to serialize messages. Dropping \(messageCount) messages.")
-      messageQueue.removeAll(keepCapacity: true)
-      return
-    }
-    urlRequest.HTTPBody = decodedJson
-    
-    print("Uploading \(messageCount) messages.")
-    
-    var networkError: NSError?
-    var response: NSURLResponse?
-    do {
-      try NSURLConnection.sendSynchronousRequest(urlRequest, returningResponse: &response)
-    } catch let error as NSError {
-      networkError = error
-    }
-    if networkError != nil {
-      print("Failed to upload messages. Retrying later.")
-      return
-    }
-    
-    messageQueue.removeAll(keepCapacity: true)
-  }
 }

@@ -27,6 +27,7 @@ import Foundation
   from the mechanics of how each task will be run, including details of thread use, scheduling, etc.
   Exposed for testing.
 */
+
 public protocol Executor {
-  func submit(task: () -> ())
+    func submit(task: @escaping () -> ())
 }

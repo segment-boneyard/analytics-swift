@@ -23,5 +23,5 @@
 import Foundation
 
 public protocol MessageBuilder {
-  func build() -> Dictionary<String, AnyObject>
+    func build() -> [String: AnyObject]
 }

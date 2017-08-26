@@ -22,18 +22,18 @@
 
 import Foundation
 
-/** An Executor implementation that runs all enqueued tasks serially and asynchronously. */
+/** 
+ An Executor implementation that runs all enqueued tasks serially and asynchronously. 
+*/
+
 public class SerialExecutor: Executor {
+    private let dispatcher: DispatchQueue
   
-  var dispatcher: dispatch_queue_t
-  
-  init(name: String) {
-    self.dispatcher = dispatch_queue_create(name, DISPATCH_QUEUE_SERIAL)
-  }
-  
-  public func submit(task: () -> ()) {
-    dispatch_async(dispatcher) {
-      task()
+    init(name: String) {
+        self.dispatcher = DispatchQueue(label: name)
     }
-  }
+  
+    public func submit(task: @escaping () -> ()) {
+        dispatcher.async(execute: task)
+    }
 }

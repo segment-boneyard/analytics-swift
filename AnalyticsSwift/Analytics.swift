@@ -38,7 +38,7 @@ public class Analytics {
      In memory queue of enqueued events.
     */
 
-    private var messageQueue: [[String: AnyObject]]
+    private var messageQueue: [[String: Any]]
 
     /** 
      Executor that handles interactions with the messageQueue. This will also be used to upload events.
@@ -73,7 +73,7 @@ public class Analytics {
      Exposed for testing only. Do not use this directly.
     */
 
-    public init(writeKey: String, queue: [[String: AnyObject]], executor: Executor) {
+    public init(writeKey: String, queue: [[String: Any]], executor: Executor) {
         self.writeKey = writeKey
         self.messageQueue = queue
         self.executor = executor
@@ -88,13 +88,13 @@ public class Analytics {
     public func enqueue(messageBuilder: MessageBuilder) {
         var message = messageBuilder.build()
         Analytics.ensureId(message: message)
-        message["messageId"] = UUID().uuidString as AnyObject
-        message["timestamp"] = now as AnyObject
+        message["messageId"] = UUID().uuidString
+        message["timestamp"] = now
         executor.submit {
             self.messageQueue.append(message)
             if self.messageQueue.count >= self.flushQueueSize {
                 self.performFlush()
-            }
+    }
         }
     }
 
@@ -112,7 +112,7 @@ public class Analytics {
      Ensures that a message provides either one of userId or anonymousId. 
     */
 
-    private static func ensureId(message: [String: AnyObject]) {
+    private static func ensureId(message: [String: Any]) {
         let idExists = message.keys.contains("userId") || message.keys.contains("anonymousId")
         assert(idExists, "Either userId or anonymousId must be provided.")
     }
@@ -154,7 +154,7 @@ public class Analytics {
         }
         let request = urlRequest(for: messagesData)
         print("Uploading \(messageQueue.count) messages.")
-        URLSession.shared.dataTask(with: request)
+        URLSession.shared.dataTask(with: request).resume()
         messageQueue.removeAll(keepingCapacity: true)
     }
 
@@ -163,14 +163,14 @@ public class Analytics {
     */
 
     private var messagesData: Data? {
-        let batch: [String: AnyObject] = [
-            "batch": messageQueue as AnyObject,
+        let batch: [String: Any] = [
+            "batch": messageQueue,
             "context": [
                 "library": [
                     "name": "analytics-swift",
                     "version": AnalyticsSwiftVersionNumber
                 ]
-            ] as AnyObject
+            ]
         ]
         return try? JSONSerialization.data(withJSONObject: batch, options: [])
     }

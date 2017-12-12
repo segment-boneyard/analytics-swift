@@ -23,36 +23,32 @@
 import Foundation
 
 public class TrackMessageBuilder: MessageBuilder {
-    private var dictionary: [String: AnyObject] = [:]
+    private var dictionary: [String: Any] = [:]
 
     public init(event: String) {
-        dictionary["type"] = "track" as AnyObject
-        dictionary["event"] = event as AnyObject
+        dictionary["type"] = "track"
+        dictionary["event"] = event
     }
 
-    public func properties(properties: [String: AnyObject]) -> TrackMessageBuilder {
-        dictionary["properties"] = properties as AnyObject
-        return self
+    public func properties(properties: [String: Any]) {
+        dictionary["properties"] = properties
     }
   
     // Common
 
-    public func userId(_ userId: String) -> TrackMessageBuilder {
-        dictionary["userId"] = userId as AnyObject
-        return self
+    public func userId(_ userId: String) {
+        dictionary["userId"] = userId
     }
   
-    public func anonymousId(_ anonymousId: String) -> TrackMessageBuilder {
-        dictionary["anonymousId"] = anonymousId as AnyObject
-        return self
+    public func anonymousId(_ anonymousId: String) {
+        dictionary["anonymousId"] = anonymousId
     }
   
-    public func context(_ context: [String: AnyObject]) -> TrackMessageBuilder {
-        dictionary["context"] = context as AnyObject
-        return self
+    public func context(_ context: [String: Any]) {
+        dictionary["context"] = context
     }
   
-    public func build() -> [String: AnyObject] {
+    public func build() -> [String: Any] {
         return dictionary
     }
 }

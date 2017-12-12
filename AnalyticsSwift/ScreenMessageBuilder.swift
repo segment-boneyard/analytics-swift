@@ -23,36 +23,32 @@
 import Foundation
 
 public class ScreenMessageBuilder: MessageBuilder {
-    private var dictionary: [String: AnyObject] = [:]
+    private var dictionary: [String: Any] = [:]
   
     public init(name: String) {
-        dictionary["type"] = "screen" as AnyObject
-        dictionary["name"] = name as AnyObject
+        dictionary["type"] = "screen"
+        dictionary["name"] = name
     }
   
-    public func properties(_ properties: [String: AnyObject]) -> ScreenMessageBuilder {
-        dictionary["properties"] = properties as AnyObject
-        return self
+    public func properties(_ properties: [String: Any]) {
+        dictionary["properties"] = properties
     }
   
     // Common
 
-    public func userId(_ userId: String) -> ScreenMessageBuilder {
-        dictionary["userId"] = userId as AnyObject
-        return self
+    public func userId(_ userId: String) {
+        dictionary["userId"] = userId
     }
   
-    public func anonymousId(_ anonymousId: String) -> ScreenMessageBuilder {
-        dictionary["anonymousId"] = anonymousId as AnyObject
-        return self
+    public func anonymousId(_ anonymousId: String) {
+        dictionary["anonymousId"] = anonymousId
     }
   
-    public func context(_ context: [String: AnyObject]) -> ScreenMessageBuilder {
-        dictionary["context"] = context as AnyObject
-        return self
+    public func context(_ context: [String: Any]) {
+        dictionary["context"] = context
     }
   
-    public func build() -> [String: AnyObject] {
+    public func build() -> [String: Any] {
         return dictionary
     }
 }

@@ -31,11 +31,14 @@ pod 'AnalyticsSwift', '~> 0.2.0'
 
 * Create an instance of the analytics client with your project write key:
 
-`var analytics = Analytics.create(YOUR_SEGMENT_WRITE_KEY_HERE)`
+`var analytics = Analytics.create(writeKey: "YOUR_SEGMENT_WRITE_KEY_HERE")`
 
 * Create an instance of a message (either [`identify`](https://segment.com/docs/libraries/http/#identify), [`group`](https://segment.com/docs/libraries/http/#group), [`track`](https://segment.com/docs/libraries/http/#track), [`screen`](https://segment.com/docs/libraries/http/#screen), [`alias`](https://segment.com/docs/libraries/http/#alias)). Note that either `userId` or `anonymousId` is always required.
 
-`var message = TrackMessageBuilder(event: "Button A").userId("prateek")`
+```
+let message = TrackMessageBuilder(event: "Button A")
+message.userId("prateek")
+```
 
 * Enqueue the message.
 

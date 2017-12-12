@@ -30,7 +30,7 @@ public class TrackMessageBuilder: MessageBuilder {
         dictionary["event"] = event
     }
 
-    public func properties(properties: [String: Any]) {
+    public func properties(_ properties: [String: Any]) {
         dictionary["properties"] = properties
     }
   

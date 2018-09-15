@@ -154,7 +154,8 @@ public class Analytics {
         }
         let request = urlRequest(for: messagesData)
         print("Uploading \(messageQueue.count) messages.")
-        URLSession.shared.dataTask(with: request)
+        let dataTask = URLSession.shared.dataTask(with: request)
+        dataTask.resume()
         messageQueue.removeAll(keepingCapacity: true)
     }
 

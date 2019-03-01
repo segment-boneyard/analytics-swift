@@ -11,7 +11,7 @@ The analytics-ios library supports the following features that are *NOT* offered
 
 
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/16131737/53616285-bcca0480-3b96-11e9-8bcd-9874dbe99250.png"/>
+  <img src="https://user-images.githubusercontent.com/16131737/53616377-1af6e780-3b97-11e9-89e0-695f93a3b7ee.png"/>
   <p><b><i>You can't fix what you can't measure</i></b></p>
 </div>
 

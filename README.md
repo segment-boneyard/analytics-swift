@@ -9,7 +9,7 @@ The analytics-ios library supports the following features that are *NOT* offered
 * Queing events offline. Without this, the swift library will drop events once the user closes the app or when the user is offline.
 * Client side integrations. Without this, some integrations (such as Flurry, Localytics and others) cannot be used with the Swift library.
 
-> *NOTE*: Official support from Segment for this plugin is *deprecated*. We recommend using our [`analytics-ios`](https://github.com/segmentio/analytics-ios) library.
+> **NOTE**: Official support from Segment for this plugin is **deprecated**. We recommend using our [`analytics-ios`](https://github.com/segmentio/analytics-ios) library.
 
 ## 🏃💨 Quickstart for `analytics-ios`
 <div align="center">

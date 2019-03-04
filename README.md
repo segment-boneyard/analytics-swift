@@ -9,43 +9,9 @@ The analytics-ios library supports the following features that are *NOT* offered
 * Queing events offline. Without this, the swift library will drop events once the user closes the app or when the user is offline.
 * Client side integrations. Without this, some integrations (such as Flurry, Localytics and others) cannot be used with the Swift library.
 
-## Installing the Library
+> *NOTE*: Official support from Segment for this plugin is *deprecated*. We recommend using our [`analytics-ios`](https://github.com/segmentio/analytics-ios) library.
 
-#### CocoaPods
-```
-use_frameworks!
-
-pod 'AnalyticsSwift', '~> 0.2.0'
-```
-
-#### Manual
-1. Download the [latest binary](https://github.com/segmentio/analytics-swift/releases) of the library.
-2. Drag the `AnalyticsSwift.framework` file [into](https://cloudup.com/cBXYVa2ZmOL) your project.
-3. Under 'Build Phases', click the ['New Copy Files Phase'](https://cloudup.com/c7pDwmlNnhq) button.
-4. In the 'Copy Files' target, select 'Frameworks' as the destination and [drag the `Analytics.framework`](https://cloudup.com/cliU4MKF69U) file from the binary we added to the project in step 2.
-
-## Usage
-* Add the `AnalyticsSwift` library to your project.
-
-* Add the correct imports `import AnalyticsSwift`
-
-* Create an instance of the analytics client with your project write key:
-
-`var analytics = Analytics.create(YOUR_SEGMENT_WRITE_KEY_HERE)`
-
-* Create an instance of a message (either [`identify`](https://segment.com/docs/libraries/http/#identify), [`group`](https://segment.com/docs/libraries/http/#group), [`track`](https://segment.com/docs/libraries/http/#track), [`screen`](https://segment.com/docs/libraries/http/#screen), [`alias`](https://segment.com/docs/libraries/http/#alias)). Note that either `userId` or `anonymousId` is always required.
-
-`var message = TrackMessageBuilder(event: "Button A").userId("prateek")`
-
-* Enqueue the message.
-
-`analytics.enqueue(message)`
-
-* Wait for the message to be uploaded or trigger a flush manually.
-
-`analytics.flush()`
-
-## 🏃💨 Quickstart Guide
+## 🏃💨 Quickstart for `analytics-ios`
 <div align="center">
   <img src="https://user-images.githubusercontent.com/16131737/53451779-77f67000-39d4-11e9-8657-861c97c5de1b.png"/>
   <p><b><i>You can't fix what you can't measure</i></b></p>
@@ -349,7 +315,43 @@ If you are part of a new startup  (&lt;$5M raised, &lt;2 years since founding), 
 ### 📝 Docs & Feedback
 Check out our full [analytics-ios reference](https://segment.com/docs/sources/mobile/ios?utm_source=github&utm_medium=click&utm_campaign=protos_swift) to see what else is possible, or read about the [Tracking API methods](https://segment.com/docs/sources/server/http?utm_source=github&utm_medium=click&utm_campaign=protos_swift) to get a sense for the bigger picture. If you have any questions, or see anywhere we can improve our documentation, [let us know](https://segment.com/contact?utm_source=github&utm_medium=click&utm_campaign=protos_swift)!
 
-## Other Examples
+## Installing the Library
+
+#### CocoaPods
+```
+use_frameworks!
+
+pod 'AnalyticsSwift', '~> 0.2.0'
+```
+
+#### Manual
+1. Download the [latest binary](https://github.com/segmentio/analytics-swift/releases) of the library.
+2. Drag the `AnalyticsSwift.framework` file [into](https://cloudup.com/cBXYVa2ZmOL) your project.
+3. Under 'Build Phases', click the ['New Copy Files Phase'](https://cloudup.com/c7pDwmlNnhq) button.
+4. In the 'Copy Files' target, select 'Frameworks' as the destination and [drag the `Analytics.framework`](https://cloudup.com/cliU4MKF69U) file from the binary we added to the project in step 2.
+
+## Usage
+* Add the `AnalyticsSwift` library to your project.
+
+* Add the correct imports `import AnalyticsSwift`
+
+* Create an instance of the analytics client with your project write key:
+
+`var analytics = Analytics.create(YOUR_SEGMENT_WRITE_KEY_HERE)`
+
+* Create an instance of a message (either [`identify`](https://segment.com/docs/libraries/http/#identify), [`group`](https://segment.com/docs/libraries/http/#group), [`track`](https://segment.com/docs/libraries/http/#track), [`screen`](https://segment.com/docs/libraries/http/#screen), [`alias`](https://segment.com/docs/libraries/http/#alias)). Note that either `userId` or `anonymousId` is always required.
+
+`var message = TrackMessageBuilder(event: "Button A").userId("prateek")`
+
+* Enqueue the message.
+
+`analytics.enqueue(message)`
+
+* Wait for the message to be uploaded or trigger a flush manually.
+
+`analytics.flush()`
+
+## Examples
 
 You can see basic examples of the library in action [here](https://github.com/segmentio/analytics-swift-example).
 

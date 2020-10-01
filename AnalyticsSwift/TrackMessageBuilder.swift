@@ -35,16 +35,15 @@ public class TrackMessageBuilder: MessageBuilder {
     }
   
     // Common
-
-    public func userId(_ userId: String) {
+    public func setUserId(_ userId: String) {
         dictionary["userId"] = userId
     }
   
-    public func anonymousId(_ anonymousId: String) {
+    public func setAnonymousId(_ anonymousId: String) {
         dictionary["anonymousId"] = anonymousId
     }
   
-    public func context(_ context: [String: Any]) {
+    public func setContext(_ context: [String: Any]) {
         dictionary["context"] = context
     }
   

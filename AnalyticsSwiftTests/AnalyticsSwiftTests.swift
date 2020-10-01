@@ -29,8 +29,13 @@ final class AnalyticsSwiftTests: XCTestCase {
         let analytics = Analytics(writeKey: "Z2qQi0HsunlFVULJmUi6R0JAwIF2S7R1", queue: Array(),
                                   executor: SynchronousExecutor(name: "com.segment.executor.test"))
         for index in 1...21 {
-            analytics.enqueue(messageBuilder: TrackMessageBuilder(event: "hello, world" + String(index)).userId("prateek"))
-            analytics.enqueue(messageBuilder: TrackMessageBuilder(event: "bye, world" + String(index)).userId("prateek"))
+            let tmb1 = TrackMessageBuilder(event: "hello, world" + String(index))
+            tmb1.setUserId("prateek")
+            analytics.enqueue(messageBuilder: tmb1)
+            
+            let tmb2 = TrackMessageBuilder(event: "bye, world" + String(index))
+            tmb2.setUserId("prateek")
+            analytics.enqueue(messageBuilder: tmb2)
         }
         print("Sent messages to client.")
         analytics.flush()

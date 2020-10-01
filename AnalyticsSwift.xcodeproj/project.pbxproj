@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		49B3330C25262F40008F380D /* AnalyticsSwift-tvOS-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 49B3330A25262F40008F380D /* AnalyticsSwift-tvOS-Info.plist */; };
 		49B3330D25262F40008F380D /* AnalyticsSwift iOS-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 49B3330B25262F40008F380D /* AnalyticsSwift iOS-Info.plist */; };
+		49B333AB2526414D008F380D /* AnalyticsSwift.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 49B333AA2526414D008F380D /* AnalyticsSwift.podspec */; };
 		6E33516A1B290AE8000EF548 /* AnalyticsSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E3351691B290AE8000EF548 /* AnalyticsSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E3351701B290AE8000EF548 /* AnalyticsSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E3351641B290AE8000EF548 /* AnalyticsSwift.framework */; };
 		6E3351771B290AE8000EF548 /* AnalyticsSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E3351761B290AE8000EF548 /* AnalyticsSwiftTests.swift */; };
@@ -60,6 +61,7 @@
 /* Begin PBXFileReference section */
 		49B3330A25262F40008F380D /* AnalyticsSwift-tvOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "AnalyticsSwift-tvOS-Info.plist"; sourceTree = SOURCE_ROOT; };
 		49B3330B25262F40008F380D /* AnalyticsSwift iOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "AnalyticsSwift iOS-Info.plist"; sourceTree = SOURCE_ROOT; };
+		49B333AA2526414D008F380D /* AnalyticsSwift.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AnalyticsSwift.podspec; sourceTree = "<group>"; };
 		6E3351641B290AE8000EF548 /* AnalyticsSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AnalyticsSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E3351681B290AE8000EF548 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E3351691B290AE8000EF548 /* AnalyticsSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnalyticsSwift.h; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 		6E33515A1B290AE8000EF548 = {
 			isa = PBXGroup;
 			children = (
+				49B333AA2526414D008F380D /* AnalyticsSwift.podspec */,
 				6E3351661B290AE8000EF548 /* AnalyticsSwift */,
 				6E3351731B290AE8000EF548 /* AnalyticsSwiftTests */,
 				6E3351651B290AE8000EF548 /* Products */,
@@ -331,6 +334,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				49B3330D25262F40008F380D /* AnalyticsSwift iOS-Info.plist in Resources */,
+				49B333AB2526414D008F380D /* AnalyticsSwift.podspec in Resources */,
 				49B3330C25262F40008F380D /* AnalyticsSwift-tvOS-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name             = 'AnalyticsSwift'
-  spec.version          = '0.2.0'
+  spec.version          = '0.2.1'
 
   spec.license          =  { :type => 'MIT' }
 
@@ -13,7 +13,7 @@ Pod::Spec.new do |spec|
   spec.source_files     = 'AnalyticsSwift/*.swift'
 
   spec.ios.deployment_target = '8.0'
-  spec.osx.deployment_target = '10.9'
+  spec.osx.deployment_target = '10.13'
   spec.tvos.deployment_target = '9.0'
 
   spec.requires_arc     = true
